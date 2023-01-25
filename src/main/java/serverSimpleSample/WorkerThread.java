@@ -17,7 +17,7 @@ public class WorkerThread implements Runnable {
 	private LinkedBlockingQueue<Socket> linkedBlockingQueue;
 	
 	/**If has to stop the thread, it will turn true*/
-	private boolean hasToStop = false;
+	private volatile boolean hasToStop = false;
 	
 	/**just for instance identification*/
 	private int workerNumber;
@@ -68,6 +68,13 @@ public class WorkerThread implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+	}
+	
+	/**
+	 * Won't work if the runnable is waiting in linkedBlockingQueue.take()
+	 */
+	public void stop() {
+		hasToStop = true;
 	}
 
 }
